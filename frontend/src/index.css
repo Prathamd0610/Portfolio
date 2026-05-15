@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --apple-blue: #0071e3;
+    --color-surface: #f5f5f7;
+    --color-card: #f8fafc;
+    --color-border: #e5e7eb;
+  }
+
+  .dark {
+    --color-surface: #1c1c1e;
+    --color-card: #1e293b;
+    --color-border: #334155;
+  }
+
+  /* Scrollbar (light/dark) */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #86868b; border-radius: 10px; }
+  .dark ::-webkit-scrollbar-thumb { background: #3a3a3c; }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-2xl border border-gray-200 dark:border-gray-700 shadow-lg;
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-600;
+  }
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1), box-shadow 0.3s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px -12px rgba(0,0,0,0.3);
+  }
+}
