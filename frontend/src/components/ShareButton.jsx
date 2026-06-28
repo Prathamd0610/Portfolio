@@ -20,7 +20,7 @@ const ShareButton = () => {
       <motion.button
         whileTap={{ scale: 0.9 }}
         onClick={handleShare}
-        className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 dark:bg-[#1c1c1e]/80 backdrop-blur-2xl border border-gray-200 dark:border-gray-700 shadow-2xl text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-[#0071e3] transition-colors"
+        className="flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-xs font-bold text-gray-600 dark:text-gray-300 hover:text-brand-500 transition-colors"
       >
         {copied ? <Check size={14} className="text-green-500" /> : <Share2 size={14} />}
         {copied ? 'Copied!' : 'Share'}

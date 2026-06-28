@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0b0b10" />
+      <stop offset="1" stop-color="#15151f" />
+    </linearGradient>
+    <linearGradient id="aurora" x1="120" y1="180" x2="1080" y2="470" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563eb" />
+      <stop offset="0.5" stop-color="#7c3aed" />
+      <stop offset="1" stop-color="#06b6d4" />
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.2" cy="0.25" r="0.5">
+      <stop stop-color="#2563eb" stop-opacity="0.45" />
+      <stop offset="1" stop-color="#2563eb" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.85" cy="0.8" r="0.5">
+      <stop stop-color="#7c3aed" stop-opacity="0.4" />
+      <stop offset="1" stop-color="#7c3aed" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect width="1200" height="630" fill="url(#glow1)" />
+  <rect width="1200" height="630" fill="url(#glow2)" />
+
+  <!-- grid -->
+  <g stroke="#ffffff" stroke-opacity="0.04">
+    <path d="M0 90 H1200 M0 180 H1200 M0 270 H1200 M0 360 H1200 M0 450 H1200 M0 540 H1200" />
+    <path d="M150 0 V630 M300 0 V630 M450 0 V630 M600 0 V630 M750 0 V630 M900 0 V630 M1050 0 V630" />
+  </g>
+
+  <text x="90" y="200" font-family="'JetBrains Mono', monospace" font-size="22" letter-spacing="8" fill="#7c8cff" font-weight="700">SOFTWARE ENGINEER · ACCENTURE</text>
+
+  <text x="86" y="320" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="104" font-weight="700" fill="#ffffff">Pratham Dhingra</text>
+
+  <text x="90" y="400" font-family="'Inter','Segoe UI',sans-serif" font-size="34" fill="#c7c9d4" font-weight="500">Building scalable MERN apps &amp; enterprise automation.</text>
+
+  <rect x="90" y="452" width="320" height="8" rx="4" fill="url(#aurora)" />
+
+  <g font-family="'Inter','Segoe UI',sans-serif" font-size="20" font-weight="600" fill="#e7e8ef">
+    <rect x="90" y="500" width="150" height="48" rx="24" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.12"/>
+    <text x="120" y="530">React</text>
+    <rect x="256" y="500" width="160" height="48" rx="24" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.12"/>
+    <text x="286" y="530">Node.js</text>
+    <rect x="432" y="500" width="150" height="48" rx="24" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.12"/>
+    <text x="462" y="530">Java</text>
+    <rect x="598" y="500" width="200" height="48" rx="24" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.12"/>
+    <text x="628" y="530">Selenium</text>
+  </g>
+
+  <circle cx="1010" cy="300" r="150" fill="none" stroke="url(#aurora)" stroke-width="3" stroke-opacity="0.7" />
+  <circle cx="1010" cy="300" r="100" fill="none" stroke="url(#aurora)" stroke-width="2" stroke-opacity="0.5" />
+  <circle cx="1010" cy="300" r="50" fill="url(#aurora)" fill-opacity="0.25" />
+</svg>

@@ -9,13 +9,20 @@ const CustomCursor = () => {
   const springY = useSpring(y, { stiffness: 150, damping: 15 });
 
   useEffect(() => {
+    // Skip entirely on touch / coarse-pointer devices (no custom cursor needed).
+    if (typeof window === 'undefined' || !window.matchMedia('(pointer: fine)').matches) return;
+
+    let last = false;
     const move = (e) => { x.set(e.clientX); y.set(e.clientY); };
     const over = (e) => {
-      const target = e.target.closest('a, button, .hoverable');
-      setHovering(!!target);
+      const isHover = !!e.target.closest('a, button, .hoverable');
+      if (isHover !== last) {
+        last = isHover;
+        setHovering(isHover);
+      }
     };
-    window.addEventListener('mousemove', move);
-    window.addEventListener('mouseover', over);
+    window.addEventListener('mousemove', move, { passive: true });
+    window.addEventListener('mouseover', over, { passive: true });
     return () => {
       window.removeEventListener('mousemove', move);
       window.removeEventListener('mouseover', over);
@@ -26,7 +33,7 @@ const CustomCursor = () => {
     <>
       {/* Outer ring */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#0071e3]/40 pointer-events-none z-[9999] hidden md:block"
+        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-brand-500/40 pointer-events-none z-[9999] hidden md:block"
         style={{
           x: springX,
           y: springY,
@@ -38,7 +45,7 @@ const CustomCursor = () => {
       />
       {/* Inner dot */}
       <motion.div
-        className="fixed top-0 left-0 w-1.5 h-1.5 bg-[#0071e3] rounded-full pointer-events-none z-[9999] hidden md:block"
+        className="fixed top-0 left-0 w-1.5 h-1.5 bg-brand-500 rounded-full pointer-events-none z-[9999] hidden md:block"
         style={{
           x: x,
           y: y,

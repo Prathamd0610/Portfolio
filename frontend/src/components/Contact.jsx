@@ -6,7 +6,6 @@ import {
   Mail,
   MapPin,
   Linkedin,
-  Github,
   Terminal,
   CheckCircle2,
   AlertCircle,
@@ -64,8 +63,9 @@ const Contact = () => {
   };
 
   return (
-    <section className="py-32 bg-white dark:bg-[#0a0a0a]" id="contact">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="relative py-32 bg-[#fbfbfd] dark:bg-[#0b0b10] overflow-hidden" id="contact">
+      <div className="aurora-blob w-[480px] h-[480px] bottom-0 -left-20 bg-brand-400/15 dark:bg-brand-600/15" />
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           {/* Left – contact info */}
           <div>
@@ -74,40 +74,39 @@ const Contact = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-[#0071e3] font-mono text-sm font-bold tracking-[0.4em] uppercase mb-4">
-                Secure Line
-              </h2>
-              <h3 className="text-6xl md:text-8xl font-black text-[#1d1d1f] dark:text-white tracking-tighter mb-10 leading-none">
-                Get In Touch<span className="text-[#0071e3]">.</span>
+              <span className="section-label mb-4">// Let's Connect</span>
+              <h3 className="text-5xl md:text-7xl font-display font-bold tracking-tighter mb-8 leading-none mt-3">
+                <span className="text-[#1d1d1f] dark:text-white">Get in </span>
+                <span className="text-aurora">touch.</span>
               </h3>
               <p className="text-gray-500 dark:text-gray-400 text-xl font-medium leading-relaxed mb-12 max-w-lg">
-                Available for high-impact QA initiatives and MERN developments. Based in{' '}
-                <span className="text-[#1d1d1f] dark:text-white font-bold underline decoration-[#0071e3] decoration-2">
+                Open to Software Engineer roles, MERN builds and automation initiatives. Based in{' '}
+                <span className="text-[#1d1d1f] dark:text-white font-bold">
                   {contactInfo.location}
                 </span>
-                .
+                {' '}— available remotely worldwide.
               </p>
             </motion.div>
 
             <div className="space-y-6 mb-16">
               <div
                 onClick={copyEmail}
-                className="group flex items-center justify-between p-6 bg-gray-50 dark:bg-[#1c1c1e] rounded-[2rem] border border-gray-100 dark:border-gray-800 hover:border-[#0071e3]/30 dark:hover:border-blue-900 cursor-pointer transition-all"
+                className="group flex items-center justify-between p-6 bg-white dark:bg-white/5 rounded-4xl border border-gray-100 dark:border-white/10 hover:border-brand-300/50 dark:hover:border-brand-500/40 cursor-pointer transition-all"
               >
                 <div className="flex items-center gap-6">
-                  <div className="w-12 h-12 rounded-2xl bg-white dark:bg-[#2c2c2e] shadow-sm flex items-center justify-center text-[#0071e3]">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-500 to-accent-violet shadow-glow flex items-center justify-center text-white">
                     <Mail size={22} />
                   </div>
                   <div>
                     <p className="text-[10px] font-black uppercase text-gray-400 dark:text-gray-500 tracking-[0.2em]">
-                      Primary Node
+                      Email
                     </p>
-                    <p className="text-xl font-black text-[#1d1d1f] dark:text-white">
+                    <p className="text-lg font-bold text-[#1d1d1f] dark:text-white break-all">
                       {contactInfo.email}
                     </p>
                   </div>
                 </div>
-                <div className="text-gray-300 dark:text-gray-600 group-hover:text-[#0071e3] transition-colors">
+                <div className="text-gray-300 dark:text-gray-600 group-hover:text-brand-500 transition-colors shrink-0">
                   {copySuccess ? (
                     <CheckCircle2 size={20} className="text-green-500" />
                   ) : (
@@ -116,15 +115,15 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-6 p-6 bg-gray-50 dark:bg-[#1c1c1e] rounded-[2rem] border border-gray-100 dark:border-gray-800">
-                <div className="w-12 h-12 rounded-2xl bg-white dark:bg-[#2c2c2e] shadow-sm flex items-center justify-center text-[#0071e3]">
+              <div className="flex items-center gap-6 p-6 bg-white dark:bg-white/5 rounded-4xl border border-gray-100 dark:border-white/10">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-500 to-accent-violet shadow-glow flex items-center justify-center text-white">
                   <MapPin size={22} />
                 </div>
                 <div>
                   <p className="text-[10px] font-black uppercase text-gray-400 dark:text-gray-500 tracking-[0.2em]">
-                    Geographic Hub
+                    Location
                   </p>
-                  <p className="text-xl font-black text-[#1d1d1f] dark:text-white">
+                  <p className="text-lg font-bold text-[#1d1d1f] dark:text-white">
                     {contactInfo.location}
                   </p>
                 </div>
@@ -136,45 +135,38 @@ const Contact = () => {
                 href={contactInfo.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.1, backgroundColor: '#0071e3', color: '#fff' }}
-                className="w-14 h-14 rounded-2xl bg-gray-50 dark:bg-[#1c1c1e] border border-gray-100 dark:border-gray-800 flex items-center justify-center text-[#1d1d1f] dark:text-white transition-all shadow-sm"
+                whileHover={{ scale: 1.1, y: -3 }}
+                className="w-14 h-14 rounded-2xl bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 flex items-center justify-center text-[#1d1d1f] dark:text-white hover:text-brand-500 transition-all shadow-sm"
+                aria-label="LinkedIn"
               >
                 <Linkedin />
               </motion.a>
               <motion.a
-                href={contactInfo.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1, backgroundColor: '#0071e3', color: '#fff' }}
-                className="w-14 h-14 rounded-2xl bg-gray-50 dark:bg-[#1c1c1e] border border-gray-100 dark:border-gray-800 flex items-center justify-center text-[#1d1d1f] dark:text-white transition-all shadow-sm"
+                href={`mailto:${contactInfo.email}`}
+                whileHover={{ scale: 1.1, y: -3 }}
+                className="w-14 h-14 rounded-2xl bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 flex items-center justify-center text-[#1d1d1f] dark:text-white hover:text-brand-500 transition-all shadow-sm"
+                aria-label="Email"
               >
-                <Github />
-              </motion.a>
-              <motion.a
-                href="#"
-                whileHover={{ scale: 1.1, backgroundColor: '#0071e3', color: '#fff' }}
-                className="w-14 h-14 rounded-2xl bg-gray-50 dark:bg-[#1c1c1e] border border-gray-100 dark:border-gray-800 flex items-center justify-center text-[#1d1d1f] dark:text-white transition-all shadow-sm"
-              >
-                <Terminal />
+                <Mail />
               </motion.a>
             </div>
           </div>
 
           {/* Right – Form */}
           <div className="relative">
-            <div className="absolute -inset-4 bg-blue-50/50 dark:bg-blue-900/10 blur-3xl rounded-full z-0" />
+            <div className="absolute -inset-4 bg-brand-500/10 dark:bg-brand-500/10 blur-3xl rounded-full z-0" />
             <motion.div
-              className="relative z-10 bg-white dark:bg-[#1c1c1e] p-12 rounded-[3.5rem] shadow-[0_32px_64px_rgba(0,0,0,0.05)] dark:shadow-none border border-gray-100 dark:border-gray-800"
+              className="relative z-10 bg-white dark:bg-[#1a1a24] p-8 md:p-12 rounded-5xl shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-white/10 gradient-border"
             >
-              <form onSubmit={handleSend} className="space-y-8">
+              <form onSubmit={handleSend} className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 ml-4">
-                    Identification
+                    Your Name
                   </label>
                   <input
                     type="text"
                     placeholder="e.g. Hiring Manager"
-                    className="w-full px-8 py-5 rounded-2.5xl bg-gray-50 dark:bg-[#2c2c2e] border border-transparent focus:bg-white dark:focus:bg-[#0a0a0a] focus:border-[#0071e3] outline-none font-bold transition-all text-[#1d1d1f] dark:text-white"
+                    className="w-full px-7 py-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-transparent focus:bg-white dark:focus:bg-[#0b0b10] focus:border-brand-500 outline-none font-semibold transition-all text-[#1d1d1f] dark:text-white"
                     value={form.name}
                     onChange={e => setForm({ ...form, name: e.target.value })}
                     required
@@ -183,12 +175,12 @@ const Contact = () => {
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 ml-4">
-                    Return Path (Email)
+                    Email
                   </label>
                   <input
                     type="email"
                     placeholder="name@company.com"
-                    className="w-full px-8 py-5 rounded-2.5xl bg-gray-50 dark:bg-[#2c2c2e] border border-transparent focus:bg-white dark:focus:bg-[#0a0a0a] focus:border-[#0071e3] outline-none font-bold transition-all text-[#1d1d1f] dark:text-white"
+                    className="w-full px-7 py-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-transparent focus:bg-white dark:focus:bg-[#0b0b10] focus:border-brand-500 outline-none font-semibold transition-all text-[#1d1d1f] dark:text-white"
                     value={form.email}
                     onChange={e => setForm({ ...form, email: e.target.value })}
                     required
@@ -197,12 +189,12 @@ const Contact = () => {
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 ml-4">
-                    Inquiry Details
+                    Message
                   </label>
                   <textarea
                     rows="4"
-                    placeholder="Briefly describe the collaboration opportunity..."
-                    className="w-full px-8 py-5 rounded-2.5xl bg-gray-50 dark:bg-[#2c2c2e] border border-transparent focus:bg-white dark:focus:bg-[#0a0a0a] focus:border-[#0071e3] outline-none font-bold transition-all text-[#1d1d1f] dark:text-white resize-none"
+                    placeholder="Briefly describe the opportunity or idea..."
+                    className="w-full px-7 py-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-transparent focus:bg-white dark:focus:bg-[#0b0b10] focus:border-brand-500 outline-none font-semibold transition-all text-[#1d1d1f] dark:text-white resize-none"
                     value={form.message}
                     onChange={e => setForm({ ...form, message: e.target.value })}
                     required
@@ -213,12 +205,12 @@ const Contact = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   disabled={status === 'loading'}
-                  className={`w-full py-6 rounded-3xl font-black uppercase tracking-[0.3em] flex items-center justify-center gap-4 shadow-xl transition-all ${
+                  className={`w-full py-5 rounded-2xl font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 shadow-glow transition-all ${
                     status === 'success'
                       ? 'bg-green-500 text-white'
                       : status === 'error'
                       ? 'bg-red-500 text-white'
-                      : 'bg-[#1d1d1f] dark:bg-white dark:text-black text-white hover:bg-[#0071e3] dark:hover:bg-[#0071e3] dark:hover:text-white'
+                      : 'bg-gradient-to-r from-brand-600 to-accent-violet text-white'
                   }`}
                 >
                   <AnimatePresence mode="wait">
@@ -228,15 +220,15 @@ const Contact = () => {
                       </motion.div>
                     ) : status === 'success' ? (
                       <motion.span key="s" initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-2">
-                        <CheckCircle2 size={20} /> Sent
+                        <CheckCircle2 size={20} /> Message Sent
                       </motion.span>
                     ) : status === 'error' ? (
                       <motion.span key="e" initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-2">
-                        <AlertCircle size={20} /> Retry
+                        <AlertCircle size={20} /> Try Again
                       </motion.span>
                     ) : (
                       <motion.span key="i" className="flex items-center gap-3">
-                        Initiate Transmission <Send size={18} />
+                        Send Message <Send size={18} />
                       </motion.span>
                     )}
                   </AnimatePresence>

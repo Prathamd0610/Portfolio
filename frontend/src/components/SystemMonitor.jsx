@@ -68,7 +68,7 @@ const SystemMonitor = () => {
                       {m.label}
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-[#0071e3]">
+                  <span className="text-[10px] font-mono font-bold text-brand-500">
                     {m.value}
                   </span>
                 </div>

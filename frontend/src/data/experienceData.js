@@ -1,50 +1,54 @@
+// Career experience — grouped by company so promotions render as a single
+// timeline. Pratham joined Accenture as an Associate Software Engineer and was
+// promoted to Software Engineer.
 export const experienceData = [
   {
-    id: "accenture-ase",
-    role: "Associate Software Engineer",
+    id: "accenture",
     company: "Accenture",
-    period: "June 2024 – Present",
+    location: "Noida, India / Remote",
     type: "Full-Time",
-    location: "Noida / Remote",
-    description: "Leading automation initiatives within the Quality Engineering vertical. Focused on enterprise-grade test architecture and CI/CD integration.",
-    achievements: [
-      "Reduced regression time by 40% with a custom Selenium-Java framework.",
-      "Improved script stability by 35% using AI-assisted debugging.",
-      "Accelerated development productivity by 50% via Agentic AI & Copilot.",
-      "Achieved zero critical production defects in Agile sprints."
+    duration: "Jun 2024 – Present",
+    website: "https://www.accenture.com",
+    summary:
+      "Part of the Quality Engineering & Software Development vertical — building enterprise-grade test automation frameworks and shipping MERN features, now accelerated end-to-end with Agentic AI and GitHub Copilot.",
+    metrics: [
+      { label: "Regression Time", value: "-40%" },
+      { label: "Dev Productivity", value: "+50%" },
+      { label: "Manual Effort", value: "-60%" },
+      { label: "Critical Defects", value: "0" },
     ],
-    fullDetails: [
-      "Reduced regression testing execution time by 40% by architecting and optimizing Selenium-Java automation frameworks with reusable components and parallel execution support.",
-      "Improved automation script stability by 35% through proactive maintenance of failing test cases using GitHub Copilot and AI-assisted debugging approaches.",
-      "Increased automation development productivity by 50% by leveraging Agentic AI and GitHub Copilot for faster script generation, code refactoring, and reusable utility creation.",
-      "Enhanced framework maintainability and reduced duplicate code by 30% through framework-level optimizations, modular design implementation, and reusable automation utilities.",
-      "Accelerated defect identification and resolution cycles by 25% through efficient automation reporting, root cause analysis, and continuous test monitoring.",
-      "Supported Agile sprint deliveries with zero critical production defects by collaborating closely with QA, development, and business teams during testing and UAT phases.",
-      "Reduced manual testing effort by 60% through expanded automation coverage for functional and regression test scenarios.",
-      "Improved CI/CD automation execution efficiency by 35% through Maven optimization, execution flow enhancements, and streamlined test suite management.",
-      "Contributed to faster release validation cycles by integrating scalable automation practices and improving end-to-end test execution processes.",
-      "Optimized automation framework performance and reduced flaky test failures by implementing better synchronization handling, reusable waits, and stable locator strategies."
+    // Newest role first → renders as a promotion ladder.
+    roles: [
+      {
+        title: "Software Engineer",
+        period: "Jan 2026 – Present",
+        current: true,
+        promotion: true,
+        description:
+          "Promoted to Software Engineer for consistent delivery impact — now owning automation architecture decisions and championing AI-assisted engineering practices.",
+        achievements: [
+          "Promoted from Associate Software Engineer after delivering measurable quality and velocity gains across releases.",
+          "Architect reusable, scalable Selenium-Java frameworks adopted across multiple project teams.",
+          "Drive Agentic AI + GitHub Copilot adoption, cutting script authoring and refactoring time by ~50%.",
+          "Own CI/CD test execution health, keeping releases green with stable, self-healing test strategies.",
+        ],
+        stack: ["Java", "Selenium", "TestNG", "REST Assured", "Agentic AI", "GitHub Copilot", "CI/CD"],
+      },
+      {
+        title: "Associate Software Engineer",
+        period: "Jun 2024 – Dec 2025",
+        current: false,
+        promotion: false,
+        description:
+          "Joined the Quality Engineering team and quickly became a go-to contributor for automation framework optimization and release validation.",
+        achievements: [
+          "Reduced regression execution time by 40% via parallel execution and reusable framework components.",
+          "Improved script stability by 35% using AI-assisted debugging and proactive test maintenance.",
+          "Cut manual testing effort by 60% by expanding functional & regression automation coverage.",
+          "Supported Agile sprints with zero critical production defects through close QA/Dev/UAT collaboration.",
+        ],
+        stack: ["Java", "Selenium", "TestNG", "Maven", "JIRA", "SQL"],
+      },
     ],
-    stack: ["Java", "Selenium", "TestNG", "Maven", "Agentic AI", "GitHub Copilot", "JIRA"]
   },
-//   {
-//     id: "accenture-trainee",
-//     role: "Automation QA Trainee",
-//     company: "Accenture (Onboarding)",
-//     period: "Sept 2025 – Nov 2025",
-//     type: "Professional Training",
-//     location: "Noida",
-//     description: "Intensive deep-dive into corporate software development lifecycles (SDLC) and advanced automation testing paradigms.",
-//     achievements: [
-//       "Mastered Page Object Model (POM) and Data Driven Testing (DDT) methodologies.",
-//       "Developed custom reporting logic using ExtentReports for visual execution logs.",
-//       "Analyzed complex legal governance requirements for technical compliance."
-//     ],
-//     fullDetails: [
-//       "Mastered Page Object Model (POM) and Data Driven Testing (DDT) methodologies.",
-//       "Developed custom reporting logic using ExtentReports for visual execution logs.",
-//       "Analyzed complex legal governance requirements for technical compliance."
-//     ],
-//     stack: ["SQL", "Java", "Manual Testing", "REST Assured", "Cucumber"]
-//   }
 ];

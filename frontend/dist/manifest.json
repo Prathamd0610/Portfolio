@@ -1,10 +1,11 @@
 {
   "name": "Pratham Dhingra Portfolio",
   "short_name": "Pratham",
+  "description": "Portfolio of Pratham Dhingra, Software Engineer at Accenture — MERN full-stack development and enterprise test automation.",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0071e3",
+  "background_color": "#0b0b10",
+  "theme_color": "#2563eb",
   "icons": [
     {
       "src": "/favicon-light.svg",

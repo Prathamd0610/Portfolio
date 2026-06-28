@@ -23,6 +23,16 @@ app.use(express.urlencoded({ extended: true }));
 // --- API Architecture ---
 app.use('/api/v1/contact', contactRoutes);
 
+// Professional Health Check Endpoint (registered before the catch-all so it isn't shadowed)
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    message: 'System Operational',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
+
 const path = require('path');
 
 // Serve static files from the React build
@@ -31,16 +41,6 @@ app.use(express.static(path.join(__dirname, '../frontend/dist')));
 // For any route that is not an API route, send back the React app
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-});
-
-// Professional Health Check Endpoint
-app.get('/health', (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    message: 'System Operational',
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString()
-  });
 });
 
 // Global Error Handler for Async Errors
@@ -56,7 +56,7 @@ const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
   console.log(`
   -----------------------------------------
-  🚀 SERVER DEPLOYED IN ${process.env.NODE_ENV.toUpperCase()} MODE
+  🚀 SERVER DEPLOYED IN ${(process.env.NODE_ENV || 'development').toUpperCase()} MODE
   📡 LISTENING ON PORT: ${PORT}
   -----------------------------------------
   `);

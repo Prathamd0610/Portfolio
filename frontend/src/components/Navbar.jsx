@@ -6,6 +6,7 @@ import { useTheme } from '../context/ThemeContext';
 import { toggleMute, isMuted } from '../utils/sound';
 
 const links = [
+  { name: 'About', to: 'about' },
   { name: 'Education', to: 'education' },
   { name: 'Experience', to: 'experience' },
   { name: 'Projects', to: 'projects' },
@@ -50,14 +51,14 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <motion.div whileHover={{ rotate: 90 }} className="w-10 h-10 bg-[#1d1d1f] dark:bg-white rounded-2xl flex items-center justify-center text-white dark:text-black">
+          <motion.div whileHover={{ rotate: 90 }} className="w-10 h-10 bg-gradient-to-br from-brand-600 to-accent-violet rounded-2xl flex items-center justify-center text-white shadow-glow">
             <Terminal size={20} />
           </motion.div>
-          <span className="text-xl font-black tracking-tighter">PRATHAM<span className="text-[#0071e3]">.</span></span>
+          <span className="text-xl font-display font-bold tracking-tight">PRATHAM<span className="text-aurora">.</span></span>
         </div>
 
         {/* Desktop links – react‑scroll activeClass handles highlighting */}
-        <div className="hidden lg:flex items-center gap-1 bg-[#f5f5f7] dark:bg-[#1c1c1e] p-1 rounded-2xl border border-[#e5e7eb] dark:border-[#2c2c2e]">
+        <div className="hidden lg:flex items-center gap-1 glass-panel p-1 rounded-2xl">
           {links.map(link => (
             <Link
               key={link.to}
@@ -65,8 +66,8 @@ const Navbar = () => {
               smooth={true}
               offset={-80}
               spy={true}
-              activeClass="!text-[#0071e3]"                // force active color
-              className="relative px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl transition cursor-pointer text-gray-400 hover:text-[#1d1d1f] dark:hover:text-white"
+              activeClass="!text-brand-600 dark:!text-brand-400 bg-gray-100 dark:bg-white/5"
+              className="relative px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-xl transition cursor-pointer text-gray-400 hover:text-[#1d1d1f] dark:hover:text-white"
             >
               {link.name}
             </Link>
@@ -109,9 +110,9 @@ const Navbar = () => {
                 smooth={true}
                 offset={-80}
                 spy={true}
-                activeClass="!text-[#0071e3]"
+                activeClass="!text-brand-500"
                 onClick={() => setMobileOpen(false)}
-                className="text-3xl font-black tracking-tighter text-gray-300 hover:text-[#0071e3] transition cursor-pointer"
+                className="text-3xl font-display font-bold tracking-tight text-gray-300 hover:text-brand-500 transition cursor-pointer"
               >
                 {link.name}
               </Link>

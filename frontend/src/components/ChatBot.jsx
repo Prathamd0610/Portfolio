@@ -47,12 +47,17 @@ const ChatBot = () => {
 
   const formatExperience = () =>
     experienceData
-      .map(
-        (exp) =>
-          `💼 **${exp.role}** @ ${exp.company}\n${exp.period}\n📍 ${exp.location}\n\n${exp.description}\n\nKey Highlights:\n${exp.achievements
-            .map((a) => `• ${a}`)
-            .join('\n')}`
-      )
+      .map((company) => {
+        const roles = company.roles
+          .map(
+            (r) =>
+              `${r.current ? '🟢' : '•'} **${r.title}** (${r.period})${
+                r.promotion ? ' — Promoted 🎉' : ''
+              }\n${r.description}`
+          )
+          .join('\n\n');
+        return `🏢 **${company.company}** — ${company.location}\n${company.duration}\n\n${company.summary}\n\n${roles}`;
+      })
       .join('\n\n');
 
   const formatProjects = () =>
@@ -78,7 +83,7 @@ const ChatBot = () => {
       .join('\n');
 
   const formatContact = () =>
-    `📧 Email: ${contactInfo.email}\n📍 Location: ${contactInfo.location}\n🔗 LinkedIn: ${contactInfo.linkedin}\n🐙 GitHub: ${contactInfo.github}`;
+    `📧 Email: ${contactInfo.email}\n📍 Location: ${contactInfo.location}\n🔗 LinkedIn: ${contactInfo.linkedin}`;
 
   const handleMenuClick = (action) => {
     let response = '';
@@ -137,7 +142,7 @@ const ChatBot = () => {
       <motion.button
         whileHover={{ scale: 1.1 }}
         onClick={() => setOpen(!open)}
-        className="fixed bottom-24 right-6 z-50 w-14 h-14 rounded-full bg-[#0071e3] text-white shadow-2xl flex items-center justify-center"
+        className="fixed bottom-24 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-brand-600 to-accent-violet text-white shadow-glow flex items-center justify-center"
       >
         {open ? <X size={24} /> : <MessageCircle size={24} />}
       </motion.button>
@@ -148,12 +153,12 @@ const ChatBot = () => {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-40 right-6 w-96 max-w-[90vw] bg-white dark:bg-[#1c1c1e] rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 flex flex-col overflow-hidden"
+            className="fixed bottom-40 right-6 w-96 max-w-[90vw] bg-white dark:bg-[#1a1a24] rounded-3xl shadow-2xl border border-gray-200 dark:border-white/10 z-50 flex flex-col overflow-hidden"
             style={{ maxHeight: '70vh' }}
           >
-            <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+            <div className="p-4 border-b border-gray-100 dark:border-white/10 flex items-center justify-between">
               <h4 className="font-bold text-sm flex items-center gap-2">
-                <MessageCircle size={16} className="text-[#0071e3]" /> AI Assistant
+                <MessageCircle size={16} className="text-brand-500" /> AI Assistant
               </h4>
               <button onClick={() => setOpen(false)} className="text-gray-400 hover:text-red-500 transition">
                 <X size={16} />
@@ -165,8 +170,8 @@ const ChatBot = () => {
                 <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-[85%] px-4 py-2 rounded-2xl text-sm whitespace-pre-wrap ${
                     msg.from === 'user'
-                      ? 'bg-[#0071e3] text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200'
+                      ? 'bg-gradient-to-r from-brand-600 to-accent-violet text-white'
+                      : 'bg-gray-100 dark:bg-white/5 text-gray-800 dark:text-gray-200'
                   }`}>
                     {msg.text}
                     {msg.showMenu && (
@@ -175,7 +180,7 @@ const ChatBot = () => {
                           <button
                             key={opt.action}
                             onClick={() => handleMenuClick(opt.action)}
-                            className="px-3 py-1.5 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-[#0071e3] transition"
+                            className="px-3 py-1.5 rounded-xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-brand-50 dark:hover:bg-brand-900/30 hover:text-brand-600 transition"
                           >
                             {opt.label}
                           </button>
@@ -188,16 +193,16 @@ const ChatBot = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="p-3 border-t border-gray-100 dark:border-gray-700 flex gap-2">
+            <div className="p-3 border-t border-gray-100 dark:border-white/10 flex gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Ask me anything..."
-                className="flex-1 px-3 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 border-none outline-none text-sm"
+                className="flex-1 px-3 py-2 rounded-xl bg-gray-100 dark:bg-white/5 border-none outline-none text-sm"
               />
-              <button onClick={handleSend} className="p-2 rounded-xl bg-[#0071e3] text-white">
+              <button onClick={handleSend} className="p-2 rounded-xl bg-gradient-to-r from-brand-600 to-accent-violet text-white">
                 <Send size={16} />
               </button>
             </div>
