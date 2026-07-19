@@ -1,157 +1,136 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GraduationCap, MapPin, Star, ArrowUpRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { GraduationCap, MapPin, Plus } from 'lucide-react';
 import { educationData } from '../data/educationData';
 
 const Education = () => {
-  const [hovered, setHovered] = useState(null);
-  const [expandedId, setExpandedId] = useState(null);
+  // First entry open by default for immediate context.
+  const [openId, setOpenId] = useState(educationData[0]?.id ?? null);
 
-  const handleArrowClick = (id) => {
-    setExpandedId(id);
-    setHovered(null);
-  };
-
-  const handleBack = () => {
-    setExpandedId(null);
-  };
+  const toggle = (id) => setOpenId((cur) => (cur === id ? null : id));
 
   return (
-    <section className="py-32 bg-white dark:bg-[#0b0b10] relative overflow-hidden" id="education">
-      <div className="aurora-blob w-[440px] h-[440px] top-10 right-0 bg-brand-400/12 dark:bg-brand-600/12" />
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24">
-          <div className="max-w-2xl">
-            <span className="section-label mb-4">// Academic Lineage</span>
-            <h3 className="text-5xl md:text-7xl font-display font-bold tracking-tighter leading-none mb-8 mt-3">
-              <span className="text-aurora">Education</span>
-              <span className="text-[#1d1d1f] dark:text-white">.</span>
-            </h3>
-            <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">
-              A systematic approach to learning — from foundational commerce to advanced
-              computational logic and full-stack engineering.
-            </p>
+    <section id="education" className="relative py-28 md:py-36 border-t border-line/10">
+      <div className="u-container">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl mb-14"
+        >
+          <div className="flex items-center gap-4 mb-6">
+            <span className="index-tag">03</span>
+            <span className="w-8 h-px bg-line/20" />
+            <span className="eyebrow">Education</span>
           </div>
-        </div>
+          <h2 className="font-serif text-4xl md:text-6xl leading-[1.02] tracking-tight text-ink">
+            A systematic path <span className="italic font-normal">of learning.</span>
+          </h2>
+          <p className="mt-5 text-ink-soft text-base md:text-lg leading-relaxed">
+            From foundational commerce to advanced computational logic and full-stack engineering.
+          </p>
+        </motion.div>
 
-        <div className="grid grid-cols-1 gap-10">
+        {/* Accordion list */}
+        <div className="border-t border-line/10">
           {educationData.map((edu, index) => {
-            const isExpanded = expandedId === edu.id;
-
+            const isOpen = openId === edu.id;
+            // Split "AKTU University, Lucknow • Grade: 8.35 CGPA (Current)" into parts
+            const parts = edu.subInfo.split('•').map((s) => s.trim());
+            const gradePart = parts.find((p) => /grade/i.test(p));
+            const gradeValue = gradePart ? gradePart.replace(/grade:\s*/i, '') : null;
+            const affiliation = parts.filter((p) => p !== gradePart).join(' · ');
             return (
               <motion.div
                 key={edu.id}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                onHoverStart={() => !isExpanded && setHovered(edu.id)}
-                onHoverEnd={() => setHovered(null)}
-                className="group relative card-glow p-8 md:p-12"
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ delay: index * 0.08, duration: 0.6 }}
+                className="border-b border-line/10"
               >
-                <AnimatePresence mode="wait">
-                  {isExpanded ? (
-                    /* ---------- EXPANDED DETAIL VIEW ---------- */
-                    <motion.div
-                      key="detail"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                      className="flex flex-col"
-                    >
-                      <button
-                        onClick={handleBack}
-                        className="mb-8 self-start p-3 rounded-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:border-brand-500 transition flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-brand-500"
-                      >
-                        <ArrowLeft size={18} /> Back
-                      </button>
+                <button
+                  onClick={() => toggle(edu.id)}
+                  aria-expanded={isOpen}
+                  className="w-full text-left grid grid-cols-1 md:grid-cols-[160px_1fr_auto] gap-4 md:gap-8 items-start md:items-center py-8 group"
+                >
+                  <span className="font-mono text-sm text-ink-faint tabnum tracking-tight">
+                    {edu.years}
+                  </span>
 
-                      <h4 className="text-3xl md:text-5xl font-display font-bold text-[#1d1d1f] dark:text-white mb-6 tracking-tighter">
-                        {edu.degree}
-                      </h4>
-                      <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-10 font-medium">
-                        {edu.description}
-                      </p>
+                  <span className="min-w-0">
+                    <span className="block font-serif text-2xl md:text-[32px] leading-tight tracking-tight text-ink transition-colors duration-300 group-hover:text-ink-soft">
+                      {edu.degree}
+                    </span>
+                    <span className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-ink-soft">
+                      <span className="inline-flex items-center gap-2 font-medium">
+                        <GraduationCap size={15} /> {edu.institution}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 text-ink-faint">
+                        <MapPin size={14} /> {edu.location}
+                      </span>
+                    </span>
+                  </span>
 
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-8 border-t border-gray-200 dark:border-white/10">
-                        {edu.modules.map((mod, mi) => (
-                          <div key={mi} className="bg-gray-50 dark:bg-white/5 p-4 rounded-2xl border border-gray-100 dark:border-white/10 shadow-sm">
-                            <p className="text-[10px] font-black uppercase text-brand-500 mb-1">Module {mi + 1}</p>
-                            <p className="text-xs font-bold text-[#1d1d1f] dark:text-white leading-tight">{mod}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  ) : (
-                    /* ---------- DEFAULT TILE VIEW ---------- */
+                  <span
+                    className={`justify-self-start md:justify-self-end grid place-items-center w-11 h-11 rounded-full border transition-all duration-500 ${
+                      isOpen
+                        ? 'bg-accent border-accent text-accent-ink rotate-45'
+                        : 'border-line/15 text-ink-soft group-hover:border-line/30 group-hover:text-ink'
+                    }`}
+                  >
+                    <Plus size={18} />
+                  </span>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
                     <motion.div
-                      key="tile"
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 20 }}
-                      transition={{ duration: 0.3 }}
-                      className="flex flex-col lg:flex-row gap-12"
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
                     >
-                      {/* Info Column */}
-                      <div className="lg:w-2/3">
-                        <div className="flex items-center gap-4 mb-8 flex-wrap">
-                          <div className="px-5 py-2 rounded-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[#1d1d1f] dark:text-white font-mono text-xs font-bold shadow-sm">
-                            {edu.years}
-                          </div>
-                          <div className="flex items-center gap-2 text-brand-600 dark:text-brand-400 font-bold text-xs uppercase tracking-widest">
-                            <Star size={14} /> Academic Distinction
-                          </div>
+                      <div className="md:grid md:grid-cols-[160px_1fr] md:gap-8 pb-9">
+                        {/* Left meta column — top-aligned so it never stretches */}
+                        <div className="hidden md:block self-start space-y-5">
+                          {affiliation && (
+                            <div>
+                              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint mb-1.5">
+                                Affiliation
+                              </p>
+                              <p className="text-sm font-medium text-ink leading-snug">{affiliation}</p>
+                            </div>
+                          )}
+                          {gradeValue && (
+                            <div>
+                              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-faint mb-1.5">
+                                Grade
+                              </p>
+                              <p className="font-serif text-2xl text-ink leading-none">{gradeValue}</p>
+                            </div>
+                          )}
                         </div>
-
-                        <h4 className="text-3xl md:text-5xl font-display font-bold text-[#1d1d1f] dark:text-white mb-4 tracking-tighter group-hover:text-brand-500 transition-colors">
-                          {edu.degree}
-                        </h4>
-
-                        <div className="space-y-3 mb-10">
-                          <p className="text-xl font-bold text-gray-700 dark:text-gray-300 flex items-center gap-3">
-                            <GraduationCap className="text-brand-500" size={24} /> {edu.institution}
+                        <div>
+                          <p className="text-[15px] md:text-base text-ink-soft leading-relaxed max-w-2xl">
+                            {edu.description}
                           </p>
-                          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-gray-400 dark:text-gray-500 font-medium">
-                            <span className="flex items-center gap-2"><MapPin size={16} /> {edu.location}</span>
-                            <span className="flex items-center gap-2 font-mono text-xs bg-gray-50 dark:bg-white/5 px-3 py-1 rounded-lg border border-gray-100 dark:border-white/10">{edu.subInfo}</span>
-                          </div>
-                        </div>
-
-                        {/* Modules Grid */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-8 border-t border-gray-200 dark:border-white/10">
-                          {edu.modules.map((mod, mi) => (
-                            <div key={mi} className="bg-gray-50 dark:bg-white/5 p-4 rounded-2xl border border-gray-100 dark:border-white/10 group-hover:border-brand-200 dark:group-hover:border-brand-500/30 transition-all shadow-sm">
-                              <p className="text-[10px] font-black uppercase text-brand-500 mb-1">Module {mi + 1}</p>
-                              <p className="text-xs font-bold text-[#1d1d1f] dark:text-white leading-tight">{mod}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Status Column */}
-                      <div className="lg:w-1/3 flex flex-col justify-between items-end border-t lg:border-t-0 lg:border-l border-gray-200 dark:border-white/10 pt-8 lg:pt-0 lg:pl-12">
-                        <motion.div
-                          onClick={() => handleArrowClick(edu.id)}
-                          animate={hovered === edu.id ? { rotate: 45, scale: 1.1 } : { rotate: 0, scale: 1 }}
-                          className="w-20 h-20 rounded-full bg-gradient-to-br from-brand-500 to-accent-violet flex items-center justify-center text-white shadow-glow cursor-pointer transition-colors"
-                          title="View details"
-                        >
-                          <ArrowUpRight size={32} />
-                        </motion.div>
-
-                        <div className="text-right w-full mt-8">
-                          <p className="text-xs font-mono font-bold text-gray-400 dark:text-gray-600 uppercase tracking-widest mb-2">Completion</p>
-                          <div className="flex items-center justify-end gap-3">
-                            <div className="h-2 flex-1 max-w-[150px] bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
-                              <motion.div
-                                initial={{ width: 0 }}
-                                whileInView={{ width: '100%' }}
-                                transition={{ duration: 1.5, delay: 0.5 }}
-                                className="h-full bg-gradient-to-r from-brand-500 to-accent-violet"
-                              />
-                            </div>
-                            <CheckCircle2 size={24} className="text-brand-500" />
+                          <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+                            {edu.modules.map((mod, mi) => (
+                              <div
+                                key={mi}
+                                className="surface-sunken rounded-2xl p-4 hover:border-line/20 transition-colors"
+                              >
+                                <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-faint mb-1.5">
+                                  Module {String(mi + 1).padStart(2, '0')}
+                                </p>
+                                <p className="text-[13px] font-semibold text-ink leading-tight">{mod}</p>
+                              </div>
+                            ))}
                           </div>
                         </div>
                       </div>

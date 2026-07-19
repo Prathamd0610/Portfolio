@@ -1,17 +1,22 @@
 import React from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Torus } from '@react-three/drei';
+import { OrbitControls, Float, Icosahedron } from '@react-three/drei';
 
 // Heavy Three.js scene — lazy-loaded so it stays out of the critical bundle.
-// Circulating wireframe torus — interactive (drag to spin) like the original.
+// A faceted citron "crystal" that floats gently, rotates, and reacts to drag.
 const Hero3D = () => (
-  <Canvas camera={{ position: [0, 0, 3.5], fov: 50 }} style={{ height: '100%' }}>
-    <ambientLight intensity={0.5} />
-    <directionalLight position={[5, 5, 5]} intensity={0.8} />
-    <Torus args={[1, 0.3, 16, 100]} rotation={[Math.PI / 2, 0, 0]}>
-      <meshStandardMaterial color="#6366f1" wireframe />
-    </Torus>
-    <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={4} />
+  <Canvas camera={{ position: [0, 0, 4.2], fov: 42 }} dpr={[1, 2]} style={{ height: '100%' }}>
+    <ambientLight intensity={0.55} />
+    <directionalLight position={[4, 6, 5]} intensity={1.8} />
+    <pointLight position={[-5, -3, -2]} intensity={30} color="#c7f046" />
+    <pointLight position={[5, 2, 4]} intensity={12} color="#ffffff" />
+    <Float speed={1.6} rotationIntensity={1.5} floatIntensity={1.1}>
+      {/* detail:1 → geodesic gem with crisp facets via flatShading */}
+      <Icosahedron args={[1.35, 1]}>
+        <meshStandardMaterial color="#cdf24a" flatShading roughness={0.28} metalness={0.45} />
+      </Icosahedron>
+    </Float>
+    <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={2.2} />
   </Canvas>
 );
 

@@ -33,7 +33,7 @@ const CustomCursor = () => {
     <>
       {/* Outer ring */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-brand-500/40 pointer-events-none z-[9999] hidden md:block"
+        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-ink/25 pointer-events-none z-[9999] hidden md:block"
         style={{
           x: springX,
           y: springY,
@@ -45,7 +45,7 @@ const CustomCursor = () => {
       />
       {/* Inner dot */}
       <motion.div
-        className="fixed top-0 left-0 w-1.5 h-1.5 bg-brand-500 rounded-full pointer-events-none z-[9999] hidden md:block"
+        className="fixed top-0 left-0 w-1.5 h-1.5 bg-accent rounded-full pointer-events-none z-[9999] hidden md:block"
         style={{
           x: x,
           y: y,

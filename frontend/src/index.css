@@ -2,22 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ══════════════════════════════════════════════════════════════
+   ATELIER — an editorial engineering design system
+   Warm paper + ink, electric citron accent, serif statements.
+   ══════════════════════════════════════════════════════════════ */
+
 @layer base {
   :root {
-    --brand: #6366f1;
-    --brand-600: #4f46e5;
-    --accent-violet: #7c3aed;
-    --accent-cyan: #06b6d4;
-    --accent-blue: #2563eb;
-    --color-surface: #f5f5f7;
-    --color-card: #ffffff;
-    --color-border: #e5e7eb;
+    color-scheme: light;
+    --paper: 244 241 234;          /* warm bone         */
+    --paper-raised: 255 255 255;   /* white card        */
+    --paper-sunken: 235 231 221;   /* inset surface     */
+    --ink: 24 22 18;               /* warm near-black   */
+    --ink-soft: 99 94 83;          /* secondary text    */
+    --ink-faint: 150 144 132;      /* tertiary / hint   */
+    --line: 24 22 18;              /* hairline (w/alpha) */
+    --accent: 199 240 70;          /* electric citron   */
+    --accent-ink: 22 28 0;         /* text on accent    */
   }
 
   .dark {
-    --color-surface: #13131b;
-    --color-card: #1a1a24;
-    --color-border: #262633;
+    color-scheme: dark;
+    --paper: 18 17 14;             /* warm espresso      */
+    --paper-raised: 28 26 21;
+    --paper-sunken: 37 34 28;
+    --ink: 244 241 234;
+    --ink-soft: 168 162 150;
+    --ink-faint: 112 106 96;
+    --line: 244 241 234;
+    --accent: 205 242 74;
+    --accent-ink: 22 28 0;
+  }
+
+  * {
+    border-color: rgb(var(--line) / 0.1);
   }
 
   html {
@@ -26,102 +44,112 @@
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
-  }
-
-  h1, h2, h3, h4, .font-display {
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    background-color: rgb(var(--paper));
+    color: rgb(var(--ink));
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   ::selection {
-    background: rgba(99, 102, 241, 0.25);
-    color: inherit;
+    background: rgb(var(--accent));
+    color: rgb(var(--accent-ink));
   }
 
-  /* Scrollbar (light/dark) */
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  /* Warm minimal scrollbar */
+  ::-webkit-scrollbar { width: 11px; height: 11px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #6366f1, #7c3aed);
-    border-radius: 10px;
+    background: rgb(var(--ink) / 0.22);
+    border-radius: 999px;
+    border: 3px solid rgb(var(--paper));
   }
-  .dark ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #4f46e5, #7c3aed);
-  }
+  ::-webkit-scrollbar-thumb:hover { background: rgb(var(--ink) / 0.38); }
+
+  /* Fraunces optical sizing for that editorial softness */
+  .font-serif, .font-display { font-optical-sizing: auto; }
 }
 
 @layer components {
-  /* Frosted glass surface */
-  .glass-panel {
-    @apply bg-white/70 dark:bg-[#13131b]/70 backdrop-blur-lg border border-gray-200/70 dark:border-white/10 shadow-soft dark:shadow-soft-dark;
+  /* Editorial column width — narrower than a marketing site, roomier margins */
+  .u-container { @apply max-w-6xl mx-auto px-6 md:px-10; }
+
+  /* Monospace metadata label */
+  .eyebrow {
+    @apply inline-flex items-center gap-2.5 font-mono text-[11px] md:text-xs font-medium uppercase tracking-[0.24em] text-ink-soft;
   }
 
-  /* Aurora gradient text — the core "new UI" accent */
-  .text-aurora {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(110deg, #2563eb, #6366f1, #7c3aed, #06b6d4);
-    background-size: 200% auto;
-    animation: gradient-x 6s ease infinite;
-  }
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-accent-violet;
+  /* Section index number, e.g. 01 / 08 */
+  .index-tag {
+    @apply font-mono text-xs font-medium tracking-[0.2em] text-ink-faint tabnum;
   }
 
-  /* Pill / section eyebrow label */
-  .section-label {
-    @apply inline-flex items-center gap-2 font-mono text-[11px] font-bold tracking-[0.35em] uppercase text-brand-600 dark:text-brand-400;
+  /* Surfaces */
+  .surface {
+    @apply rounded-4xl border border-line/10 bg-paper-raised transition-all duration-500;
+  }
+  .surface-sunken {
+    @apply rounded-4xl border border-line/10 bg-paper-sunken;
+  }
+  .surface-hover:hover {
+    @apply border-line/20 shadow-lift -translate-y-1;
   }
 
-  /* Glowing card */
-  .card-glow {
-    @apply relative rounded-4xl border border-gray-200/80 dark:border-white/10 bg-white dark:bg-[#1a1a24] transition-all duration-500;
+  /* Buttons — ink pill flips to citron on hover */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-full bg-ink text-paper px-7 py-3.5 text-sm font-medium tracking-tight transition-all duration-300 hover:bg-accent hover:text-accent-ink;
   }
-  .card-glow:hover {
-    @apply border-brand-300/60 dark:border-brand-500/40 shadow-glow;
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-full bg-accent text-accent-ink px-7 py-3.5 text-sm font-semibold tracking-tight transition-all duration-300 hover:brightness-[1.06];
   }
-
-  /* Gradient border wrapper */
-  .gradient-border {
-    position: relative;
-    background-clip: padding-box;
-  }
-  .gradient-border::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(120deg, #2563eb, #7c3aed, #06b6d4);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0.6;
-    pointer-events: none;
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-full border border-line/10 bg-transparent text-ink px-7 py-3.5 text-sm font-medium tracking-tight transition-all duration-300 hover:bg-paper-sunken hover:border-line/25;
   }
 
-  .hover-lift {
-    transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1), box-shadow 0.4s ease;
+  /* Data chip */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line/10 bg-paper-sunken/50 px-3 py-1 font-mono text-[11px] text-ink-soft transition-colors;
   }
-  .hover-lift:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 24px 50px -16px rgba(99, 102, 241, 0.35);
+
+  /* Form field */
+  .field {
+    @apply w-full rounded-2xl border border-line/10 bg-paper-sunken/50 px-5 py-4 text-[15px] font-medium text-ink placeholder:text-ink-faint outline-none transition-all duration-300;
+  }
+  .field:focus {
+    border-color: rgb(var(--accent));
+    background-color: rgb(var(--paper-raised));
+    box-shadow: 0 0 0 4px rgb(var(--accent) / 0.22);
   }
 }
 
 @layer utilities {
-  /* Soft aurora glow blobs used behind sections */
-  .aurora-blob {
-    @apply absolute rounded-full blur-[90px] pointer-events-none;
+  /* Ultra-fine film grain for warmth (premium print feel) */
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* Dotted / grid backdrop */
-  .grid-bg {
-    background-image: radial-gradient(rgba(99, 102, 241, 0.18) 1.2px, transparent 1.2px);
-    background-size: 30px 30px;
+  /* Highlighter marker under a word */
+  .mark {
+    background-image: linear-gradient(180deg, transparent 58%, rgb(var(--accent) / 0.9) 58%, rgb(var(--accent) / 0.9) 94%, transparent 94%);
+    background-repeat: no-repeat;
+    padding: 0 0.05em;
   }
 
-  .text-balance {
-    text-wrap: balance;
+  /* Hairline rule */
+  .rule { height: 1px; background-color: rgb(var(--line) / 0.1); }
+
+  .tabnum { font-variant-numeric: tabular-nums; }
+  .balance { text-wrap: balance; }
+
+  /* Animated underline on hover for text links */
+  .link-underline {
+    background-image: linear-gradient(rgb(var(--ink)), rgb(var(--ink)));
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
+  .link-underline:hover { background-size: 100% 1px; }
 }
 
 /* Respect users who prefer reduced motion — stabilizes the whole site */

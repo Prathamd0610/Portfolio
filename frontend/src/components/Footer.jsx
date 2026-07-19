@@ -1,14 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronUp, Linkedin, Mail } from 'lucide-react';
+import { ArrowUp, Linkedin, Mail } from 'lucide-react';
 import { Link } from 'react-scroll';
 import { contactInfo } from '../data/contactData';
 
 const navLinks = [
   { name: 'About', to: 'about' },
+  { name: 'Education', to: 'education' },
   { name: 'Experience', to: 'experience' },
   { name: 'Projects', to: 'projects' },
   { name: 'Skills', to: 'skills' },
+  { name: 'Certificates', to: 'certificates' },
   { name: 'Contact', to: 'contact' },
 ];
 
@@ -17,64 +19,106 @@ const Footer = () => {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <footer className="relative bg-[#fbfbfd] dark:bg-[#0b0b10] border-t border-gray-100 dark:border-white/10 overflow-hidden">
-      <div className="aurora-blob w-[400px] h-[300px] -bottom-20 left-1/2 -translate-x-1/2 bg-brand-400/10 dark:bg-brand-600/10" />
-      <div className="max-w-7xl mx-auto px-6 py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
-          {/* Brand */}
-          <div>
-            <p className="text-2xl font-display font-bold tracking-tight text-[#1d1d1f] dark:text-white">
-              Pratham<span className="text-aurora">.</span>
+    <footer className="relative border-t border-line/10 pt-20 pb-8 overflow-hidden">
+      <div className="u-container">
+        {/* Big CTA */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-16 border-b border-line/10">
+          <div className="lg:col-span-7">
+            <p className="eyebrow mb-5">
+              <span className="relative flex w-2 h-2">
+                <span className="absolute inline-flex w-full h-full rounded-full bg-accent opacity-70 animate-ping" />
+                <span className="relative inline-flex w-2 h-2 rounded-full bg-accent" />
+              </span>
+              Available for work
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 max-w-xs font-medium">
-              Software Engineer @ Accenture — building scalable MERN apps & enterprise automation.
-            </p>
-            <div className="flex gap-3 mt-5">
-              <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-xl bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 grid place-items-center text-gray-500 hover:text-brand-500 transition-colors">
-                <Linkedin size={16} />
+            <Link to="contact" smooth offset={-90} className="cursor-pointer group inline-block">
+              <h2 className="font-serif text-5xl md:text-7xl tracking-tight text-ink leading-[0.98]">
+                Let's build something
+                <br />
+                <span className="italic font-normal group-hover:text-ink-soft transition-colors">
+                  worth shipping.
+                </span>
+              </h2>
+            </Link>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href={`mailto:${contactInfo.email}`} className="btn-accent">
+                {contactInfo.email}
               </a>
-              <a href={`mailto:${contactInfo.email}`} aria-label="Email" className="w-10 h-10 rounded-xl bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 grid place-items-center text-gray-500 hover:text-brand-500 transition-colors">
-                <Mail size={16} />
+              <a
+                href={contactInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ghost"
+              >
+                <Linkedin size={16} /> LinkedIn
               </a>
             </div>
           </div>
 
-          {/* Quick nav */}
-          <div className="md:justify-self-center">
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 mb-4">Navigate</p>
-            <ul className="space-y-2">
-              {navLinks.map((l) => (
-                <li key={l.to}>
-                  <Link to={l.to} smooth offset={-80} className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-brand-500 cursor-pointer transition-colors">
-                    {l.name}
-                  </Link>
+          {/* Nav columns */}
+          <div className="lg:col-span-5 grid grid-cols-2 gap-8 lg:justify-items-end">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint mb-4">
+                Navigate
+              </p>
+              <ul className="space-y-2.5">
+                {navLinks.slice(0, 4).map((l) => (
+                  <li key={l.to}>
+                    <Link to={l.to} smooth offset={-90} className="text-sm text-ink-soft hover:text-ink cursor-pointer transition-colors">
+                      {l.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint mb-4">
+                More
+              </p>
+              <ul className="space-y-2.5">
+                {navLinks.slice(4).map((l) => (
+                  <li key={l.to}>
+                    <Link to={l.to} smooth offset={-90} className="text-sm text-ink-soft hover:text-ink cursor-pointer transition-colors">
+                      {l.name}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <a href={`mailto:${contactInfo.email}`} className="text-sm text-ink-soft hover:text-ink transition-colors inline-flex items-center gap-1.5">
+                    <Mail size={13} /> Email
+                  </a>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Back to top */}
-          <div className="md:justify-self-end">
-            <motion.button
-              onClick={scrollToTop}
-              whileHover={{ y: -5 }}
-              whileTap={{ scale: 0.9 }}
-              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-brand-600 to-accent-violet text-white text-xs font-bold uppercase tracking-widest shadow-glow"
-            >
-              <ChevronUp size={16} /> Back to top
-            </motion.button>
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-100 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-3">
-          <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-            © {currentYear} Pratham Dhingra. All rights reserved.
+        {/* Bottom bar */}
+        <div className="mt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-ink-soft">
+            © {currentYear} Pratham Dhingra
           </p>
-          <p className="text-xs text-gray-400 dark:text-gray-500 font-mono">
-            Built with React · Vite · Tailwind · Framer Motion
+          <p className="font-mono text-[11px] text-ink-faint tracking-[0.1em]">
+            React · Vite · Tailwind · Framer Motion
           </p>
+          <motion.button
+            onClick={scrollToTop}
+            whileHover={{ y: -3 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center gap-2 rounded-full border border-line/12 px-4 py-2 text-sm font-medium text-ink hover:bg-paper-sunken transition-colors"
+          >
+            Back to top <ArrowUp size={15} />
+          </motion.button>
         </div>
       </div>
+
+      {/* oversized wordmark */}
+      <p
+        aria-hidden
+        className="select-none pointer-events-none mt-10 text-center font-serif text-[19vw] leading-none tracking-tight text-ink/[0.035]"
+      >
+        Pratham
+      </p>
     </footer>
   );
 };

@@ -1,56 +1,56 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Activity,
-  ShieldCheck,
-  Database,
-  Globe,
-  Zap,
-  Cpu,
-  Clock,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const SystemMonitor = () => {
   const [expanded, setExpanded] = useState(false);
-  const [time, setTime] = useState(new Date().toLocaleTimeString());
+  const [time, setTime] = useState("");
 
   useEffect(() => {
-    const timer = setInterval(
-      () => setTime(new Date().toLocaleTimeString()),
-      1000,
-    );
+    const fmt = () =>
+      new Date().toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
+    setTime(fmt());
+    const timer = setInterval(() => setTime(fmt()), 1000 * 15);
     return () => clearInterval(timer);
   }, []);
 
-  const metrics = [
-    { label: "Uptime", value: "99.99%", icon: <Activity size={12} /> },
-    { label: "Security", value: "A+", icon: <ShieldCheck size={12} /> },
-    { label: "DB Latency", value: "24ms", icon: <Database size={12} /> },
-    { label: "Region", value: "IN-North", icon: <Globe size={12} /> },
-    { label: "CPU Load", value: "23%", icon: <Cpu size={12} /> },
+  // Honest, tasteful facts — no fake telemetry.
+  const facts = [
+    { label: "Role", value: "Software Engineer" },
+    { label: "Company", value: "Accenture" },
+    { label: "Focus", value: "MERN · Automation" },
+    { label: "Based in", value: "Gurugram, IN" },
   ];
 
   return (
     <motion.div
       drag
       dragMomentum={false}
-      className="fixed bottom-6 right-6 z-50 hidden lg:block cursor-grab active:cursor-grabbing"
+      className="fixed bottom-6 left-6 z-40 hidden lg:block cursor-grab active:cursor-grabbing"
     >
-      <motion.div className="bg-white/80 dark:bg-[#1c1c1e]/80 backdrop-blur-2xl border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-2xl min-w-[260px]">
-        <div
-          className="flex items-center gap-3 cursor-pointer select-none"
+      <div className="rounded-2xl border border-line/12 bg-paper/85 backdrop-blur-xl shadow-soft p-3.5 min-w-[240px]">
+        <button
+          className="flex items-center gap-3 w-full select-none"
           onClick={() => setExpanded(!expanded)}
         >
-          <div className="relative w-2.5 h-2.5">
-            <span className="absolute w-2.5 h-2.5 rounded-full bg-green-500 animate-ping" />
-            <span className="absolute w-2.5 h-2.5 rounded-full bg-green-500" />
-          </div>
-          <span className="text-[10px] font-black uppercase tracking-widest text-[#1d1d1f] dark:text-white">
-            System Operational
+          <span className="relative flex w-2 h-2">
+            <span className="absolute inline-flex w-full h-full rounded-full bg-accent opacity-70 animate-ping" />
+            <span className="relative inline-flex w-2 h-2 rounded-full bg-accent" />
           </span>
-          <Clock size={12} className="ml-auto text-gray-400" />
-          <span className="text-[10px] font-mono text-gray-500">{time}</span>
-        </div>
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink">
+            Available for work
+          </span>
+          <span className="ml-auto flex items-center gap-2">
+            <span className="font-mono text-[11px] text-ink-faint tabnum">{time}</span>
+            <motion.span animate={{ rotate: expanded ? 180 : 0 }} className="text-ink-faint">
+              <ChevronDown size={13} />
+            </motion.span>
+          </span>
+        </button>
 
         <AnimatePresence>
           {expanded && (
@@ -58,30 +58,22 @@ const SystemMonitor = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-3"
+              className="overflow-hidden"
             >
-              {metrics.map((m, i) => (
-                <div key={i} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-gray-400">
-                    {m.icon}
-                    <span className="text-[9px] font-bold uppercase tracking-wider">
-                      {m.label}
+              <div className="mt-3.5 pt-3.5 border-t border-line/10 space-y-2.5">
+                {facts.map((f) => (
+                  <div key={f.label} className="flex items-center justify-between gap-4">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
+                      {f.label}
                     </span>
+                    <span className="text-[12px] font-medium text-ink">{f.value}</span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-brand-500">
-                    {m.value}
-                  </span>
-                </div>
-              ))}
-              <div className="bg-black dark:bg-[#2c2c2e] p-2 rounded-lg mt-2">
-                <p className="text-[8px] font-mono text-green-400">
-                  {">"} STACK_READY: MERN_PROD
-                </p>
+                ))}
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
+      </div>
     </motion.div>
   );
 };

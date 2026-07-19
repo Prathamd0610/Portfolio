@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Layers, Zap, ArrowRight } from 'lucide-react';
+import { ArrowUpRight, Layers, Zap } from 'lucide-react';
 import { projectsData } from '../data/projectsData';
 
-const TiltImage = ({ project }) => {
+const ProjectVisual = ({ project }) => {
   const ref = useRef(null);
   const cardRef = useRef(null);
   const frame = useRef(0);
@@ -15,8 +15,8 @@ const TiltImage = ({ project }) => {
     const rect = el.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -8;
-    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 8;
+    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -5;
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 5;
     cancelAnimationFrame(frame.current);
     frame.current = requestAnimationFrame(() => {
       card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
@@ -32,50 +32,45 @@ const TiltImage = ({ project }) => {
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ perspective: '1000px' }}
-      className="w-full lg:w-3/5 group cursor-pointer relative"
+      style={{ perspective: '1200px' }}
+      className="group"
     >
       <div
         ref={cardRef}
-        style={{
-          transformStyle: 'preserve-3d',
-          transition: 'transform 0.2s ease-out',
-          willChange: 'transform',
-        }}
-        className="relative aspect-video rounded-5xl overflow-hidden bg-gray-100 dark:bg-[#1a1a24] border border-gray-100 dark:border-white/10 shadow-2xl"
+        style={{ transformStyle: 'preserve-3d', transition: 'transform 0.3s ease-out', willChange: 'transform' }}
+        className="surface overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-100 to-white dark:from-brand-900/30 dark:to-[#13131b] flex items-center justify-center">
-          <Layers size={100} strokeWidth={1} className="text-brand-500/20" />
-        </div>
-        <div className="absolute inset-0 grid-bg opacity-30 dark:opacity-20" />
-        <div className="absolute top-8 left-8 flex gap-3">
-          <span className="px-4 py-2 rounded-full glass-panel text-[10px] font-bold uppercase tracking-[0.2em] text-[#1d1d1f] dark:text-white">
+        {/* caption bar */}
+        <div className="flex items-center justify-between px-5 py-3 border-b border-line/10">
+          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft">
             {project.status}
           </span>
           {project.year && (
-            <span className="px-4 py-2 rounded-full glass-panel text-[10px] font-mono font-bold text-brand-600 dark:text-brand-400">
-              {project.year}
-            </span>
+            <span className="font-mono text-[11px] text-ink-faint tabnum">{project.year}</span>
           )}
         </div>
 
-        {/* metrics overlay */}
-        {project.metrics && (
-          <div className="absolute bottom-8 left-8 right-8 flex gap-3">
-            {project.metrics.map((m) => (
-              <div key={m.label} className="flex-1 px-3 py-2.5 rounded-2xl glass-panel text-center">
-                <p className="text-sm font-display font-bold text-aurora">{m.value}</p>
-                <p className="text-[8px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-0.5">{m.label}</p>
-              </div>
-            ))}
+        {/* visual field */}
+        <div className="relative aspect-[16/10] bg-paper-sunken/50 overflow-hidden">
+          <div className="grain absolute inset-0 opacity-[0.05]" />
+          <div className="absolute inset-0 grid place-items-center">
+            <Layers size={104} strokeWidth={0.75} className="text-ink/[0.08]" />
           </div>
-        )}
-      </div>
+          <span className="absolute top-5 left-5 font-serif text-6xl text-ink/[0.06] leading-none select-none">
+            {project.title.charAt(0)}
+          </span>
 
-      <div className="absolute -bottom-6 -right-6 lg:right-12 p-6 glass-panel rounded-4xl flex gap-4">
-        <a href={project.link} target="_blank" rel="noopener noreferrer" className="p-4 rounded-full bg-gradient-to-r from-brand-600 to-accent-violet text-white shadow-glow transition-all">
-          <ExternalLink size={24} />
-        </a>
+          {project.metrics && (
+            <div className="absolute inset-x-4 bottom-4 grid grid-cols-3 gap-2">
+              {project.metrics.map((m) => (
+                <div key={m.label} className="rounded-xl border border-line/10 bg-paper/70 backdrop-blur-sm px-3 py-2 text-center">
+                  <p className="font-serif text-lg text-ink leading-none tabnum">{m.value}</p>
+                  <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.12em] text-ink-faint">{m.label}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -83,67 +78,89 @@ const TiltImage = ({ project }) => {
 
 const Projects = () => {
   return (
-    <section className="relative py-32 bg-white dark:bg-[#0b0b10] overflow-hidden" id="projects">
-      <div className="aurora-blob w-[460px] h-[460px] top-20 -right-24 bg-accent-cyan/10 dark:bg-accent-cyan/10" />
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-6">
-          <div>
-            <span className="section-label mb-4">// Engineering Output</span>
-            <h3 className="text-5xl md:text-7xl font-display font-bold tracking-tighter leading-none mt-3">
-              <span className="text-aurora">Projects</span>
-              <span className="text-[#1d1d1f] dark:text-white">.</span>
-            </h3>
+    <section id="projects" className="relative py-28 md:py-36 border-t border-line/10">
+      <div className="u-container">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
+        >
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-4 mb-6">
+              <span className="index-tag">05</span>
+              <span className="w-8 h-px bg-line/20" />
+              <span className="eyebrow">Selected Work</span>
+            </div>
+            <h2 className="font-serif text-4xl md:text-6xl leading-[1.02] tracking-tight text-ink">
+              Things I've <span className="italic font-normal">shipped.</span>
+            </h2>
           </div>
-          <p className="text-gray-500 dark:text-gray-400 max-w-sm font-medium md:text-right">
-            Selected work spanning full-stack products and enterprise automation.
+          <p className="text-ink-soft max-w-xs md:text-right leading-relaxed">
+            Full-stack products and enterprise automation, end to end.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 gap-32">
+        <div className="border-t border-line/10">
           {projectsData.map((project, index) => (
-            <motion.div
+            <motion.article
               key={index}
-              initial={{ opacity: 0, y: 100 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className={`flex flex-col ${index % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-16 items-center`}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center py-14 md:py-20 border-b border-line/10"
             >
-              <TiltImage project={project} />
-              <div className="w-full lg:w-2/5">
-                <span className="section-label mb-4">{project.category}</span>
-                <h4 className="text-4xl md:text-5xl font-display font-bold text-[#1d1d1f] dark:text-white mb-6 tracking-tighter mt-3">{project.title}</h4>
-                <p className="text-gray-500 dark:text-gray-400 text-lg leading-relaxed mb-10 font-medium">
+              {/* Text column */}
+              <div className={`lg:col-span-6 ${index % 2 !== 0 ? 'lg:order-2' : ''}`}>
+                <div className="flex items-center gap-4 mb-5">
+                  <span className="font-serif text-5xl text-ink/15 leading-none tabnum">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="eyebrow">{project.category}</span>
+                </div>
+
+                <h3 className="font-serif text-3xl md:text-5xl tracking-tight text-ink leading-[1.02]">
+                  {project.title}
+                </h3>
+
+                <p className="mt-5 text-[15px] md:text-base text-ink-soft leading-relaxed max-w-xl">
                   {project.description}
                 </p>
 
-                <div className="grid grid-cols-2 gap-4 mb-10">
+                <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2.5 max-w-xl">
                   {project.highlights.map((h, hi) => (
-                    <div key={hi} className="flex items-center gap-2 text-sm font-semibold text-[#1d1d1f] dark:text-white">
-                      <Zap size={14} className="text-brand-500 shrink-0" /> {h}
+                    <div key={hi} className="flex items-center gap-2.5 py-1.5 border-b border-line/10">
+                      <Zap size={13} className="text-ink-faint shrink-0" />
+                      <span className="text-sm text-ink-soft">{h}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="flex flex-wrap gap-2 mb-12">
+                <div className="mt-6 flex flex-wrap gap-2">
                   {project.tech.map((t, ti) => (
-                    <span key={ti} className="text-[10px] font-mono font-bold px-3 py-1.5 bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-gray-300 rounded-lg border border-gray-100 dark:border-white/10">
-                      {t}
-                    </span>
+                    <span key={ti} className="chip">{t}</span>
                   ))}
                 </div>
 
-                <motion.a
+                <a
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ x: 10 }}
-                  className="inline-flex items-center gap-4 text-brand-600 dark:text-brand-400 font-bold uppercase tracking-widest text-sm group"
+                  className="group inline-flex items-center gap-2 mt-8 text-sm font-medium text-ink link-underline"
                 >
-                  Explore Project <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
-                </motion.a>
+                  Explore project
+                  <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
               </div>
-            </motion.div>
+
+              {/* Visual column */}
+              <div className={`lg:col-span-6 ${index % 2 !== 0 ? 'lg:order-1' : ''}`}>
+                <ProjectVisual project={project} />
+              </div>
+            </motion.article>
           ))}
         </div>
       </div>

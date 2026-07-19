@@ -48,7 +48,7 @@ export const projectsData = [
       { label: "PWA", value: "Yes" },
     ],
     tech: ["React", "Vite", "Tailwind", "Framer Motion", "Three.js", "Express"],
-    link: "#",
+    link: "https://portfolio-prathamdhingra.vercel.app",
   },
   {
     title: "Automation Practice Platform",

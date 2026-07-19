@@ -6,10 +6,12 @@ import {
   Mail,
   MapPin,
   Linkedin,
-  Terminal,
+  Loader2,
   CheckCircle2,
   AlertCircle,
   Copy,
+  Check,
+  ArrowUpRight,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { contactInfo } from '../data/contactData';
@@ -25,11 +27,11 @@ const Contact = () => {
   const copyEmail = () => {
     navigator.clipboard.writeText(contactInfo.email);
     setCopySuccess(true);
-    confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+    confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 }, colors: ['#c7f046', '#181612', '#a8a296'] });
     setTimeout(() => setCopySuccess(false), 2000);
   };
 
-  const handleSend = async e => {
+  const handleSend = async (e) => {
     e.preventDefault();
     setStatus('loading');
 
@@ -49,7 +51,7 @@ const Contact = () => {
       if (response.ok && data.success) {
         setStatus('success');
         setForm({ name: '', email: '', message: '' });
-        confetti({ particleCount: 100, spread: 70, origin: { y: 0.5 } });
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.5 }, colors: ['#c7f046', '#181612', '#a8a296'] });
         setTimeout(() => setStatus('idle'), 5000);
       } else {
         setStatus('error');
@@ -63,179 +65,167 @@ const Contact = () => {
   };
 
   return (
-    <section className="relative py-32 bg-[#fbfbfd] dark:bg-[#0b0b10] overflow-hidden" id="contact">
-      <div className="aurora-blob w-[480px] h-[480px] bottom-0 -left-20 bg-brand-400/15 dark:bg-brand-600/15" />
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-          {/* Left – contact info */}
-          <div>
+    <section id="contact" className="relative py-28 md:py-36 border-t border-line/10">
+      <div className="u-container">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-20 items-start">
+          {/* Left — statement + details */}
+          <div className="lg:col-span-5">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="section-label mb-4">// Let's Connect</span>
-              <h3 className="text-5xl md:text-7xl font-display font-bold tracking-tighter mb-8 leading-none mt-3">
-                <span className="text-[#1d1d1f] dark:text-white">Get in </span>
-                <span className="text-aurora">touch.</span>
-              </h3>
-              <p className="text-gray-500 dark:text-gray-400 text-xl font-medium leading-relaxed mb-12 max-w-lg">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="index-tag">08</span>
+                <span className="w-8 h-px bg-line/20" />
+                <span className="eyebrow">Contact</span>
+              </div>
+              <h2 className="font-serif text-4xl md:text-6xl leading-[1.02] tracking-tight text-ink">
+                Let's build <span className="italic font-normal">something.</span>
+              </h2>
+              <p className="mt-6 text-ink-soft text-base md:text-lg leading-relaxed max-w-md">
                 Open to Software Engineer roles, MERN builds and automation initiatives. Based in{' '}
-                <span className="text-[#1d1d1f] dark:text-white font-bold">
-                  {contactInfo.location}
-                </span>
-                {' '}— available remotely worldwide.
+                <span className="text-ink font-semibold">{contactInfo.location}</span> — available
+                remotely worldwide.
               </p>
             </motion.div>
 
-            <div className="space-y-6 mb-16">
-              <div
+            <div className="mt-10 border-t border-line/10">
+              <button
                 onClick={copyEmail}
-                className="group flex items-center justify-between p-6 bg-white dark:bg-white/5 rounded-4xl border border-gray-100 dark:border-white/10 hover:border-brand-300/50 dark:hover:border-brand-500/40 cursor-pointer transition-all"
+                className="group w-full flex items-center justify-between gap-4 py-5 border-b border-line/10 text-left"
               >
-                <div className="flex items-center gap-6">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-500 to-accent-violet shadow-glow flex items-center justify-center text-white">
-                    <Mail size={22} />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase text-gray-400 dark:text-gray-500 tracking-[0.2em]">
-                      Email
-                    </p>
-                    <p className="text-lg font-bold text-[#1d1d1f] dark:text-white break-all">
-                      {contactInfo.email}
-                    </p>
-                  </div>
-                </div>
-                <div className="text-gray-300 dark:text-gray-600 group-hover:text-brand-500 transition-colors shrink-0">
-                  {copySuccess ? (
-                    <CheckCircle2 size={20} className="text-green-500" />
-                  ) : (
-                    <Copy size={20} />
-                  )}
-                </div>
-              </div>
+                <span className="min-w-0">
+                  <span className="block font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint mb-1">
+                    Email
+                  </span>
+                  <span className="block text-[15px] font-medium text-ink truncate">
+                    {contactInfo.email}
+                  </span>
+                </span>
+                <span className="shrink-0 grid place-items-center w-9 h-9 rounded-full border border-line/12 text-ink-soft group-hover:text-ink group-hover:border-line/25 transition-colors">
+                  {copySuccess ? <Check size={15} className="text-ink" /> : <Copy size={15} />}
+                </span>
+              </button>
 
-              <div className="flex items-center gap-6 p-6 bg-white dark:bg-white/5 rounded-4xl border border-gray-100 dark:border-white/10">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-500 to-accent-violet shadow-glow flex items-center justify-center text-white">
-                  <MapPin size={22} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase text-gray-400 dark:text-gray-500 tracking-[0.2em]">
+              <div className="flex items-center justify-between gap-4 py-5 border-b border-line/10">
+                <span>
+                  <span className="block font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint mb-1">
                     Location
-                  </p>
-                  <p className="text-lg font-bold text-[#1d1d1f] dark:text-white">
-                    {contactInfo.location}
-                  </p>
-                </div>
+                  </span>
+                  <span className="block text-[15px] font-medium text-ink">{contactInfo.location}</span>
+                </span>
+                <MapPin size={18} className="text-ink-faint shrink-0" />
               </div>
             </div>
 
-            <div className="flex gap-4">
-              <motion.a
+            <div className="mt-8 flex gap-3">
+              <a
                 href={contactInfo.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.1, y: -3 }}
-                className="w-14 h-14 rounded-2xl bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 flex items-center justify-center text-[#1d1d1f] dark:text-white hover:text-brand-500 transition-all shadow-sm"
                 aria-label="LinkedIn"
+                className="group inline-flex items-center gap-2 rounded-full border border-line/12 pl-4 pr-3 py-2.5 text-sm font-medium text-ink hover:bg-paper-sunken transition-colors"
               >
-                <Linkedin />
-              </motion.a>
-              <motion.a
+                <Linkedin size={16} /> LinkedIn
+                <ArrowUpRight size={14} className="text-ink-faint group-hover:text-ink transition-colors" />
+              </a>
+              <a
                 href={`mailto:${contactInfo.email}`}
-                whileHover={{ scale: 1.1, y: -3 }}
-                className="w-14 h-14 rounded-2xl bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 flex items-center justify-center text-[#1d1d1f] dark:text-white hover:text-brand-500 transition-all shadow-sm"
                 aria-label="Email"
+                className="inline-flex items-center gap-2 rounded-full border border-line/12 px-4 py-2.5 text-sm font-medium text-ink hover:bg-paper-sunken transition-colors"
               >
-                <Mail />
-              </motion.a>
+                <Mail size={16} /> Mail
+              </a>
             </div>
           </div>
 
-          {/* Right – Form */}
-          <div className="relative">
-            <div className="absolute -inset-4 bg-brand-500/10 dark:bg-brand-500/10 blur-3xl rounded-full z-0" />
-            <motion.div
-              className="relative z-10 bg-white dark:bg-[#1a1a24] p-8 md:p-12 rounded-5xl shadow-soft dark:shadow-soft-dark border border-gray-100 dark:border-white/10 gradient-border"
-            >
-              <form onSubmit={handleSend} className="space-y-6">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 ml-4">
-                    Your Name
-                  </label>
+          {/* Right — form */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 surface p-7 md:p-10"
+          >
+            <form onSubmit={handleSend} className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <label className="block">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">
+                    Your name
+                  </span>
                   <input
                     type="text"
                     placeholder="e.g. Hiring Manager"
-                    className="w-full px-7 py-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-transparent focus:bg-white dark:focus:bg-[#0b0b10] focus:border-brand-500 outline-none font-semibold transition-all text-[#1d1d1f] dark:text-white"
+                    className="field mt-2"
                     value={form.name}
-                    onChange={e => setForm({ ...form, name: e.target.value })}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
                     required
                   />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 ml-4">
+                </label>
+                <label className="block">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">
                     Email
-                  </label>
+                  </span>
                   <input
                     type="email"
                     placeholder="name@company.com"
-                    className="w-full px-7 py-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-transparent focus:bg-white dark:focus:bg-[#0b0b10] focus:border-brand-500 outline-none font-semibold transition-all text-[#1d1d1f] dark:text-white"
+                    className="field mt-2"
                     value={form.email}
-                    onChange={e => setForm({ ...form, email: e.target.value })}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
                     required
                   />
-                </div>
+                </label>
+              </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 ml-4">
-                    Message
-                  </label>
-                  <textarea
-                    rows="4"
-                    placeholder="Briefly describe the opportunity or idea..."
-                    className="w-full px-7 py-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-transparent focus:bg-white dark:focus:bg-[#0b0b10] focus:border-brand-500 outline-none font-semibold transition-all text-[#1d1d1f] dark:text-white resize-none"
-                    value={form.message}
-                    onChange={e => setForm({ ...form, message: e.target.value })}
-                    required
-                  ></textarea>
-                </div>
+              <label className="block">
+                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint">
+                  Message
+                </span>
+                <textarea
+                  rows="5"
+                  placeholder="Briefly describe the opportunity or idea…"
+                  className="field mt-2 resize-none"
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  required
+                />
+              </label>
 
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  disabled={status === 'loading'}
-                  className={`w-full py-5 rounded-2xl font-black uppercase tracking-[0.2em] flex items-center justify-center gap-4 shadow-glow transition-all ${
-                    status === 'success'
-                      ? 'bg-green-500 text-white'
-                      : status === 'error'
-                      ? 'bg-red-500 text-white'
-                      : 'bg-gradient-to-r from-brand-600 to-accent-violet text-white'
-                  }`}
-                >
-                  <AnimatePresence mode="wait">
-                    {status === 'loading' ? (
-                      <motion.div key="l" animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1 }}>
-                        <Terminal size={20} />
-                      </motion.div>
-                    ) : status === 'success' ? (
-                      <motion.span key="s" initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-2">
-                        <CheckCircle2 size={20} /> Message Sent
-                      </motion.span>
-                    ) : status === 'error' ? (
-                      <motion.span key="e" initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-2">
-                        <AlertCircle size={20} /> Try Again
-                      </motion.span>
-                    ) : (
-                      <motion.span key="i" className="flex items-center gap-3">
-                        Send Message <Send size={18} />
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </motion.button>
-              </form>
-            </motion.div>
-          </div>
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className={`w-full rounded-2xl px-7 py-4 text-sm font-semibold flex items-center justify-center gap-2.5 transition-all duration-300 disabled:opacity-80 ${
+                  status === 'success'
+                    ? 'bg-accent text-accent-ink'
+                    : status === 'error'
+                    ? 'bg-[#c0392b] text-white'
+                    : 'bg-ink text-paper hover:bg-accent hover:text-accent-ink'
+                }`}
+              >
+                <AnimatePresence mode="wait">
+                  {status === 'loading' ? (
+                    <motion.span key="l" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
+                      <Loader2 size={18} className="animate-spin" /> Sending…
+                    </motion.span>
+                  ) : status === 'success' ? (
+                    <motion.span key="s" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
+                      <CheckCircle2 size={18} /> Message sent
+                    </motion.span>
+                  ) : status === 'error' ? (
+                    <motion.span key="e" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
+                      <AlertCircle size={18} /> Try again
+                    </motion.span>
+                  ) : (
+                    <motion.span key="i" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
+                      Send message <Send size={16} />
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </button>
+            </form>
+          </motion.div>
         </div>
       </div>
     </section>

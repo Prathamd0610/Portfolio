@@ -140,47 +140,66 @@ const ChatBot = () => {
   return (
     <>
       <motion.button
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
         onClick={() => setOpen(!open)}
-        className="fixed bottom-24 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-brand-600 to-accent-violet text-white shadow-glow flex items-center justify-center"
+        aria-label="Open assistant"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-ink text-paper shadow-lift flex items-center justify-center hover:bg-accent hover:text-accent-ink transition-colors"
       >
-        {open ? <X size={24} /> : <MessageCircle size={24} />}
+        <AnimatePresence mode="wait" initial={false}>
+          {open ? (
+            <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
+              <X size={22} />
+            </motion.span>
+          ) : (
+            <motion.span key="m" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
+              <MessageCircle size={22} />
+            </motion.span>
+          )}
+        </AnimatePresence>
       </motion.button>
 
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-40 right-6 w-96 max-w-[90vw] bg-white dark:bg-[#1a1a24] rounded-3xl shadow-2xl border border-gray-200 dark:border-white/10 z-50 flex flex-col overflow-hidden"
+            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed bottom-24 right-6 w-96 max-w-[92vw] bg-paper-raised rounded-3xl shadow-lift border border-line/12 z-50 flex flex-col overflow-hidden"
             style={{ maxHeight: '70vh' }}
           >
-            <div className="p-4 border-b border-gray-100 dark:border-white/10 flex items-center justify-between">
-              <h4 className="font-bold text-sm flex items-center gap-2">
-                <MessageCircle size={16} className="text-brand-500" /> AI Assistant
-              </h4>
-              <button onClick={() => setOpen(false)} className="text-gray-400 hover:text-red-500 transition">
+            <div className="p-4 border-b border-line/10 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="relative flex w-2 h-2">
+                  <span className="absolute inline-flex w-full h-full rounded-full bg-accent opacity-70 animate-ping" />
+                  <span className="relative inline-flex w-2 h-2 rounded-full bg-accent" />
+                </span>
+                <h4 className="font-serif text-lg text-ink">Assistant</h4>
+              </div>
+              <button onClick={() => setOpen(false)} aria-label="Close" className="text-ink-faint hover:text-ink transition-colors">
                 <X size={16} />
               </button>
             </div>
 
-            <div className="flex-1 p-4 space-y-3 overflow-y-auto scrollbar-thin">
+            <div className="flex-1 p-4 space-y-3 overflow-y-auto">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] px-4 py-2 rounded-2xl text-sm whitespace-pre-wrap ${
-                    msg.from === 'user'
-                      ? 'bg-gradient-to-r from-brand-600 to-accent-violet text-white'
-                      : 'bg-gray-100 dark:bg-white/5 text-gray-800 dark:text-gray-200'
-                  }`}>
+                  <div
+                    className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
+                      msg.from === 'user'
+                        ? 'bg-ink text-paper rounded-br-md'
+                        : 'bg-paper-sunken text-ink rounded-bl-md'
+                    }`}
+                  >
                     {msg.text}
                     {msg.showMenu && (
-                      <div className="mt-3 flex flex-wrap gap-2">
+                      <div className="mt-3 flex flex-wrap gap-1.5">
                         {menuOptions.map((opt) => (
                           <button
                             key={opt.action}
                             onClick={() => handleMenuClick(opt.action)}
-                            className="px-3 py-1.5 rounded-xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-brand-50 dark:hover:bg-brand-900/30 hover:text-brand-600 transition"
+                            className="px-3 py-1.5 rounded-full bg-paper-raised border border-line/12 text-xs font-medium text-ink-soft hover:text-accent-ink hover:bg-accent hover:border-accent transition-colors"
                           >
                             {opt.label}
                           </button>
@@ -193,17 +212,21 @@ const ChatBot = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="p-3 border-t border-gray-100 dark:border-white/10 flex gap-2">
+            <div className="p-3 border-t border-line/10 flex gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Ask me anything..."
-                className="flex-1 px-3 py-2 rounded-xl bg-gray-100 dark:bg-white/5 border-none outline-none text-sm"
+                placeholder="Ask me anything…"
+                className="flex-1 px-4 py-2.5 rounded-full bg-paper-sunken/60 border border-line/10 outline-none text-sm text-ink placeholder:text-ink-faint focus:border-accent transition-colors"
               />
-              <button onClick={handleSend} className="p-2 rounded-xl bg-gradient-to-r from-brand-600 to-accent-violet text-white">
-                <Send size={16} />
+              <button
+                onClick={handleSend}
+                aria-label="Send"
+                className="grid place-items-center w-10 h-10 rounded-full bg-ink text-paper hover:bg-accent hover:text-accent-ink transition-colors shrink-0"
+              >
+                <Send size={15} />
               </button>
             </div>
           </motion.div>
